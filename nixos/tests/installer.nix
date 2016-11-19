@@ -114,8 +114,7 @@ let
       $machine->succeed("stat -c '%a' /root") =~ /700/ or die;
 
       # Did the swap device get activated?
-      # uncomment once https://bugs.freedesktop.org/show_bug.cgi?id=86930 is resolved
-      #$machine->waitForUnit("swap.target");
+      $machine->waitForUnit("swap.target");
       $machine->waitUntilSucceeds("cat /proc/swaps | grep -q /dev");
 
       # Check whether the channel works.
