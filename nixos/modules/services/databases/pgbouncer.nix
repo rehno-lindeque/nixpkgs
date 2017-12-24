@@ -1,11 +1,8 @@
 { config, lib, pkgs, ... }:
 
 let
-  inherit (lib) mkIf mkOption types optionalAttrs singleton mapAttrsToList concatStringsSep;
+  inherit (lib) mkIf mkOption types mapAttrsToList concatStringsSep;
   cfg = config.services.pgbouncer;
-
-  pgbouncerUser = "pgbouncer";
-  pgbouncerGroup = "pgbouncer";
 
   databaseOpts = { user, ... }: {
     options = {
@@ -208,7 +205,7 @@ in {
           chown ${cfg.user}:${cfg.group} /var/run/pgbouncer
         '';
         serviceConfig = {
-          User = pgbouncerUser;
+          User = cfg.user;
           ExecStart = runPgBouncer "";
           ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
           PermissionsStartOnly = true; # preStart must be run as root in order to create directories
