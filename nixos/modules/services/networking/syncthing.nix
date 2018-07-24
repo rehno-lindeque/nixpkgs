@@ -9,17 +9,17 @@ in {
   ###### interface
   options = {
     services.syncthing = {
-
       enable = mkEnableOption ''
-        Syncthing - the self-hosted open-source alternative
-        to Dropbox and Bittorrent Sync. Initial interface will be
-        available on http://127.0.0.1:8384/.
+        A self-hosted, open-source alternative to Dropbox and Bittorrent Sync. An initial interface will be
+        available on <link xlink:href="http://127.0.0.1:8384/"/>.
+
+        When enabled, Syncthing is automatically run as a system-wide service. To run one or more per-user instances instead, turn this off and set <option>services.syncthing.install</option> instead. Then run <code>systemctl --user start syncthing</code> in order to start a per-user instance.
       '';
 
       systemService = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Auto launch Syncthing as a system service.";
+        type = types.nullOr types.bool;
+        default = null;
+        description = "Auto launch Syncthing as a system service. This option is obsolete; to run Syncthing as a user service, please see <option>services.syncthing.install</option>."
       };
 
       user = mkOption {
@@ -93,7 +93,7 @@ in {
 
   ###### implementation
 
-  config = mkIf cfg.enable {
+  config = mkIf (cfg.enable || cfg.install) {
 
     networking.firewall = mkIf cfg.openDefaultPorts {
       allowedTCPPorts = [ 22000 ];
@@ -115,8 +115,8 @@ in {
         config.ids.gids.syncthing;
     };
 
-    systemd.services = {
-      syncthing = mkIf cfg.systemService {
+    systemd.user.services = {
+      syncthing = mkIf cfg.enable {
         description = "Syncthing service";
         after = [ "network.target" ];
         environment = {
@@ -141,4 +141,10 @@ in {
       };
     };
   };
+
+  imports = [
+    (mkRemovedOptionModule ["services" "syncthing" "systemService"] ''
+      This option was replaced by services.syncthing.install.
+    '')
+  ];
 }
