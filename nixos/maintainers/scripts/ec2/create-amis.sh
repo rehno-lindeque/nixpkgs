@@ -18,13 +18,13 @@ rm -f ec2-amis.nix
 
 types="hvm"
 stores="ebs"
-regions="eu-west-1 eu-west-2 eu-west-3 eu-central-1 us-east-1 us-east-2 us-west-1 us-west-2 ca-central-1 ap-southeast-1 ap-southeast-2 ap-northeast-1 ap-northeast-2 sa-east-1 ap-south-1"
+regions="us-east-1"
 
 for type in $types; do
     link=$stateDir/$type
     imageFile=$link/nixos.qcow2
-    system=x86_64-linux
-    arch=x86_64
+    system=aarch64-linux
+    arch=aarch64
 
     # Build the image.
     if ! [ -L $link ]; then
@@ -34,12 +34,13 @@ for type in $types; do
         nix-build -o $link \
             '<nixpkgs/nixos>' \
             -A config.system.build.amazonImage \
-            --arg configuration "{ imports = [ <nixpkgs/nixos/maintainers/scripts/ec2/amazon-image.nix> ]; ec2.hvm = $hvmFlag; }"
+            --arg configuration "{ imports = [ <nixpkgs/nixos/maintainers/scripts/ec2/amazon-image.nix> ]; ec2.hvm = $hvmFlag; }" \
+            --argstr system 'aarch64-linux' \
     fi
 
     for store in $stores; do
 
-        bucket=nixos-amis
+        bucket=personal-experimental-nixos-amis
         bucketDir="$version-$type-$store"
 
         prevAmi=
@@ -81,7 +82,7 @@ for type in $types; do
                             mkdir -p $imageDir.tmp
                             ec2-bundle-image \
                                 -d $imageDir.tmp \
-                                -i $rawFile --arch $arch \
+                                -i $rawFile --arch arm64 \
                                 --user "$AWS_ACCOUNT" -c "$EC2_CERT" -k "$EC2_PRIVATE_KEY"
                             mv $imageDir.tmp $imageDir
                         fi
@@ -218,7 +219,7 @@ for type in $types; do
                         --name "$name" \
                         --description "$description" \
                         --region "$region" \
-                        --architecture "$arch" \
+                        --architecture "arm64" \
                         --block-device-mappings $blockDeviceMappings \
                         $extraFlags | jq -r .ImageId)
                     if [ "$ami" = null ]; then break; fi
@@ -245,8 +246,8 @@ done
 
 for type in $types; do
     link=$stateDir/$type
-    system=x86_64-linux
-    arch=x86_64
+    system=aarch64-linux
+    arch=aarch64
 
     for store in $stores; do
 

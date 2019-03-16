@@ -51,7 +51,7 @@ in {
     inherit lib config;
     inherit (cfg) contents format name;
     pkgs = import ../../../.. { inherit (pkgs) system; }; # ensure we use the regular qemu-kvm package
-    partitionTableType = if config.ec2.hvm then "legacy" else "none";
+    partitionTableType = "efi";
     diskSize = cfg.sizeMB;
     configFile = pkgs.writeText "configuration.nix"
       ''
