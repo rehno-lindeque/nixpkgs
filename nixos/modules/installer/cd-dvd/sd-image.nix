@@ -15,6 +15,7 @@ let
   rootfsImage = pkgs.callPackage ../../../lib/make-ext4-fs.nix ({
     inherit (config.sdImage) storePaths;
     volumeLabel = "NIXOS_SD";
+    inherit (pkgs.buildPackages) e2fsprogs libfaketime perl lkl;
   } // optionalAttrs (config.sdImage.rootPartitionUUID != null) {
     uuid = config.sdImage.rootPartitionUUID;
   });
@@ -93,10 +94,10 @@ in
 
     sdImage.storePaths = [ config.system.build.toplevel ];
 
-    system.build.sdImage = pkgs.callPackage ({ stdenv, dosfstools, e2fsprogs, mtools, libfaketime, utillinux }: stdenv.mkDerivation {
+    system.build.sdImage = pkgs.callPackage ({ stdenv }: stdenv.mkDerivation {
       name = config.sdImage.imageName;
 
-      nativeBuildInputs = [ dosfstools e2fsprogs mtools libfaketime utillinux ];
+      nativeBuildInputs = with pkgs.buildPackages; [ dosfstools e2fsprogs mtools libfaketime utillinux ];
 
       buildCommand = ''
         mkdir -p $out/nix-support $out/sd-image
