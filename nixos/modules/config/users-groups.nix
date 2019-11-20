@@ -278,6 +278,18 @@ let
         (mkIf (!cfg.mutableUsers && config.initialHashedPassword != null) {
           hashedPassword = mkDefault config.initialHashedPassword;
         })
+        { assertions =
+            [ { assertion = config.isSystemUser && config.isNormalUser;
+                message = "isSystemUser and isNormalUser cannot both be set";
+              }
+              { assertion = !config.isSystemUser && config.uid < 500;
+                message = "isSystemUser must be set for users with uids below 500";
+              }
+              { assertion = config.isNormalUser && config.uid < 1000;
+                message = "uids below 1000 is not valid for users that have isNormalUser set to true";
+              }
+            ];
+        }
       ];
 
   };
