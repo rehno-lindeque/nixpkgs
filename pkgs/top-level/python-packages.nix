@@ -2687,6 +2687,8 @@ in {
 
   expects = callPackage ../development/python-modules/expects { };
 
+  expecttest = callPackage ../development/python-modules/expecttest { };
+
   expiringdict = callPackage ../development/python-modules/expiringdict { };
 
   explorerscript = callPackage ../development/python-modules/explorerscript { };
