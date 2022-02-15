@@ -8807,6 +8807,8 @@ in {
 
   sacremoses = callPackage ../development/python-modules/sacremoses { };
 
+  sacrebleu = callPackage ../development/python-modules/sacrebleu { };
+
   safe = callPackage ../development/python-modules/safe { };
 
   safety = callPackage ../development/python-modules/safety { };
