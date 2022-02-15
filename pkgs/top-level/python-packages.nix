@@ -9907,6 +9907,8 @@ in {
 
   torchaudio = callPackage ../development/python-modules/torchaudio { };
 
+  torchdata = callPackage ../development/python-modules/torchdata { };
+
   torchgpipe = callPackage ../development/python-modules/torchgpipe { };
 
   torchinfo = callPackage ../development/python-modules/torchinfo { };
