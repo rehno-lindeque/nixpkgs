@@ -27,7 +27,7 @@ buildPythonPackage rec {
     repo = "data";
     # rev = "v${version}";
     rev = "e86cedc5ffd024ea293f541fc77e8a3b4856c8c9"; # git branch release/0.3.0
-    sha256 = "sha256:06gk7pqk2dbkxmaskycvvwyzhapbl5dr2r1v2vswdi6yx5iqzcwa";
+    sha256 = "sha256:0vyfg7z180w8q6k85v241p1d9gnxq8gdkpvhmykyjf5hnr77cc4z";
   };
 
   propagatedBuildInputs = [
