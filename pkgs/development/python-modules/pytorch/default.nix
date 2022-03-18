@@ -117,7 +117,7 @@ let
 in buildPythonPackage rec {
   pname = "pytorch";
   # Don't forget to update pytorch-bin to the same version.
-  version = "1.10.2";
+  version = "1.11.0";
 
   disabled = !isPy3k;
 
