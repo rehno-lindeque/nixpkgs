@@ -30,8 +30,7 @@
   isPy3k, pythonOlder }:
 
 # assert that everything needed for cuda is present and that the correct cuda versions are used
-assert !cudaSupport || (let majorIs = lib.versions.major cudatoolkit.version;
-                        in majorIs == "9" || majorIs == "10" || majorIs == "11");
+assert !cudaSupport || lib.versionAtLeast cudatoolkit.version "10.2.0";
 
 # confirm that cudatoolkits are sync'd across dependencies
 assert !(MPISupport && cudaSupport) || mpi.cudatoolkit == cudatoolkit;
