@@ -4604,6 +4604,7 @@ with pkgs;
     cudnn_7_4_cudatoolkit_10_0
     cudnn_7_6_cudatoolkit_10_0
     cudnn_7_6_cudatoolkit_10_1
+    cudnn_7_6_cudatoolkit_10_2
     cudnn_8_1_cudatoolkit_10_2
     cudnn_8_1_cudatoolkit_11_0
     cudnn_8_1_cudatoolkit_11_1
@@ -4621,7 +4622,7 @@ with pkgs;
     cudnn_8_3_cudatoolkit_11;
 
   # TODO(samuela): This is old and should be upgraded to 8.3 at some point.
-  cudnn = cudnn_7_6_cudatoolkit_10_1;
+  cudnn = cudnn_7_6_cudatoolkit_10_2;
 
   cutensorPackages = callPackages ../development/libraries/science/math/cutensor { };
   inherit (cutensorPackages)

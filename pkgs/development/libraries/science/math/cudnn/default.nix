@@ -56,6 +56,7 @@ rec {
     };
   };
   cudnn_7_6_cudatoolkit_10_1 = cudnn_7_6_cudatoolkit_10_0.override { cudatoolkit = cudatoolkit_10_1; };
+  cudnn_7_6_cudatoolkit_10_2 = cudnn_7_6_cudatoolkit_10_0.override { cudatoolkit = cudatoolkit_10_2; };
 
   # cuDNN 8.x
   # cuDNN 8.1 is still used by tensorflow at the time of writing (2022-02-17).
