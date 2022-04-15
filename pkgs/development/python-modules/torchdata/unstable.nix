@@ -3,60 +3,59 @@
 , fetchFromGitHub
 
 # Propogated build inputs
-, pytorch
+, pytorch-unstable
 , requests
 
 # Check inputs
 , pytestCheckHook
-, expecttest
+# , expecttest
 , fsspec
 , numpy
 , rarfile
-, torchaudio
-, torchtext
+# , torchaudio
+# , torchtext
 # , iopath
 }:
 
 
 buildPythonPackage rec {
-  pname = "torchdata";
-  version = "0.3.0a1-e86cedc";
+  pname = "torchdata-unstable";
+  version = "unstable-2022-04-11";
 
   src = fetchFromGitHub {
     owner = "pytorch";
     repo = "data";
-    # rev = "v${version}";
-    rev = "e86cedc5ffd024ea293f541fc77e8a3b4856c8c9"; # git branch release/0.3.0
-    sha256 = "sha256:0vyfg7z180w8q6k85v241p1d9gnxq8gdkpvhmykyjf5hnr77cc4z";
+    rev = "fd942eec986db373f76f521528570bfef2f1d22f";
+    sha256 = "sha256:1r7199krybnxxai7cc0hvx5hn4v3sghjfgvcqzscq9rw8hbgz37f";
   };
 
   propagatedBuildInputs = [
-    pytorch # FIXME: relies on an unstable version of pytorch for now
+    pytorch-unstable
     requests
   ];
 
   checkInputs = [
     pytestCheckHook
-    expecttest
+    # expecttest
     fsspec
     numpy
     rarfile
-    torchaudio
-    torchtext
+    # torchaudio
+    # torchtext
     # iopath
   ];
 
   disabledTests = [
     # Tests that require network access
-    "test_gdrive_iterdatapipe"
-    "test_online_iterdatapipe"
-    "test_http_reader_iterdatapipe"
-    "test_on_disk_cache_holder_iterdatapipe"
+    # "test_gdrive_iterdatapipe"
+    # "test_online_iterdatapipe"
+    # "test_http_reader_iterdatapipe"
+    # "test_on_disk_cache_holder_iterdatapipe"
   ];
 
   disabledTestPaths = [
     # FIXME: This test relies on a newer (unstable) version of torchtext
-    "test/test_text_examples.py"
+    # "test/test_text_examples.py"
   ];
 
   pythonImportsCheck = [ "torchdata" ];
