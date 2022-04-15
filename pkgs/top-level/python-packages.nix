@@ -8386,6 +8386,10 @@ in {
     cudaSupport = pkgs.config.cudaSupport or false;
   };
 
+  pytorch-unstable = callPackage ../development/python-modules/pytorch/unstable.nix {
+    cudaSupport = pkgs.config.cudaSupport or false;
+  };
+
   pytorch-bin = callPackage ../development/python-modules/pytorch/bin.nix { };
 
   pytorch-lightning = callPackage ../development/python-modules/pytorch-lightning { };
