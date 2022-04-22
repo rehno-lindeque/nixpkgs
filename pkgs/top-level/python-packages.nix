@@ -10131,7 +10131,9 @@ in {
 
   torchaudio-bin = callPackage ../development/python-modules/torchaudio/bin.nix { };
 
-  torchdata-unstable = callPackage ../development/python-modules/torchdata/unstable.nix { };
+  torchdata-unstable = callPackage ../development/python-modules/torchdata/unstable.nix {
+    pytorch = self.pytorch-unstable;
+  };
 
   torchgpipe = callPackage ../development/python-modules/torchgpipe { };
 
